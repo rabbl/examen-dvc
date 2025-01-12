@@ -1,0 +1,5 @@
+stages:
+  split_data:
+    cmd: make split_data
+  normalize_data:
+    cmd: make normalize_data

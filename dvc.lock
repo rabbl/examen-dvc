@@ -1,0 +1,12 @@
+schema: '2.0'
+stages:
+  split_data:
+    cmd: make split-data
+  normalize_data:
+    cmd: make normalize-data
+  grid_search:
+    cmd: make grid-search
+  train_model:
+    cmd: make train-model
+  evaluate_model:
+    cmd: make evaluate-model

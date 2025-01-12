@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 import click
 from sklearn.model_selection import GridSearchCV
@@ -12,14 +14,14 @@ def main():
     At the end of this script, we will have the best parameters saved as a .pkl file in the models directory.
     """
 
-    processed_data_folder = 'data/preprocessed_data'
-    model_folder = 'models'
+    processed_data_folder = os.path.join(os.getcwd(), 'data/processed_data')
+    model_folder = os.path.join(os.getcwd(), 'models')
     grid_search(processed_data_folder, model_folder)
 
 
 def grid_search(processed_data_folder, model_folder):
     X_train = pd.read_csv(f"{processed_data_folder}/X_train_scaled.csv")
-    y_train = pd.read_csv(f"{processed_data_folder}/y_train.csv")
+    y_train = pd.read_csv(f"{processed_data_folder}/y_train.csv").values.ravel()
 
     param_grid = {
         'n_estimators': [100, 200, 300],
@@ -35,3 +37,7 @@ def grid_search(processed_data_folder, model_folder):
 
     best_params = grid_search.best_params_
     joblib.dump(best_params, f"{model_folder}/best_params.pkl")
+
+
+if __name__ == '__main__':
+    main()

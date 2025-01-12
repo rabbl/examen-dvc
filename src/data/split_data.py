@@ -1,13 +1,11 @@
+import os
 import pandas as pd
 import click
-import logging
 from sklearn.model_selection import train_test_split
 
 
 @click.command()
-@click.argument('input_filepath', type=click.Path(exists=False), required=0)
-@click.argument('output_filepath', type=click.Path(exists=False), required=0)
-def main(input_filepath, output_filepath):
+def main():
     """
     Data Splitting: Split the data into training and testing sets.
     Our target variable is silica_concentrate, located in the last column of the dataset.
@@ -17,11 +15,8 @@ def main(input_filepath, output_filepath):
     The output preprocessed data file will be saved in the output folder.
     """
 
-    logger = logging.getLogger(__name__)
-    logger.info('making final data set from raw data')
-
-    input_filepath = click.prompt('Enter the file path for the input data', type=click.Path(exists=True))
-    output_filepath = click.prompt('Enter the file path for the output preprocessed data', type=click.Path())
+    input_filepath = os.path.join(os.getcwd(), 'data/raw_data')
+    output_filepath = os.path.join(os.getcwd(), 'data/processed_data')
 
     raw_data_file = f"{input_filepath}/raw.csv"
     split_data(raw_data_file, output_filepath)
@@ -29,7 +24,7 @@ def main(input_filepath, output_filepath):
 
 def split_data(raw_data_file, output_filepath):
     # Load the raw data
-    df = pd.read_csv(raw_data_file)
+    df = pd.read_csv(raw_data_file, index_col=0)
 
     # Split the data into training and testing sets
     X = df.drop(columns=['silica_concentrate'])
@@ -44,3 +39,7 @@ def split_data(raw_data_file, output_filepath):
     y_test.to_csv(f"{output_filepath}/y_test.csv", index=False)
 
     print("Data split successfully.")
+
+
+if __name__ == '__main__':
+    main()
