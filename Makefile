@@ -34,3 +34,36 @@ update: .activate
 	pip install --upgrade -r requirements.txt
 	$(done)
 .PHONY: update
+
+## Split data
+split-data:
+	python src/data/split_data.py
+	$(done)
+.PHONY: split-data
+
+## Normalize data
+normalize-data:
+	python src/data/normalize_data.py
+	$(done)
+.PHONY: normalize-data
+
+## Grid search
+grid-search:
+	python src/models/grid_search.py
+	$(done)
+.PHONY: grid-search
+
+## Train model
+train-model:
+	python src/models/train_model.py
+	$(done)
+.PHONY: train-model
+
+## Evaluate model
+evaluate-model:
+	python src/models/evaluate_model.py
+	$(done)
+.PHONY: evaluate-models
+
+
+

@@ -21,3 +21,9 @@ You must first fork the repository and then clone it to work on it. The submissi
 a collaborator with read-only rights so that it can be reviewed.
 
 You can download the data using the following link: https://datascientest-mlops.s3.eu-west-1.amazonaws.com/mlops_dvc_fr/raw.csv.
+
+# Credentials
+
+- Full Name: `Ralf Junghanns`
+- Email: `ralf.junghanns@gmail.com`
+- Dagshub Repository: `https://dagshub.com/rabbl/examen-dvc`
