@@ -15,14 +15,20 @@ def main():
     along with a scores.json file in the metrics directory that will capture evaluation metrics of our model (e.g., MSE, R2).
     """
 
-    processed_data_folder = os.path.join(os.getcwd(), 'data/processed_data')
+    split_data_folder = os.path.join(os.getcwd(), 'data/split')
+    processed_data_folder = os.path.join(os.getcwd(), 'data/processed')
     model_folder = os.path.join(os.getcwd(), 'models')
-    evaluate(processed_data_folder, model_folder)
+    metrics_folder = os.path.join(os.getcwd(), 'metrics')
+
+    if not os.path.exists(metrics_folder):
+        os.makedirs(metrics_folder)
+
+    evaluate(split_data_folder, processed_data_folder, model_folder, metrics_folder)
 
 
-def evaluate(processed_data_folder, model_folder):
+def evaluate(split_data_folder, processed_data_folder, model_folder, metrics_folder):
     X_test = pd.read_csv(f"{processed_data_folder}/X_test_scaled.csv")
-    y_test = pd.read_csv(f"{processed_data_folder}/y_test.csv").values.ravel()
+    y_test = pd.read_csv(f"{split_data_folder}/y_test.csv").values.ravel()
 
     rf = joblib.load(f"{model_folder}/trained_model.pkl")
 
@@ -36,7 +42,7 @@ def evaluate(processed_data_folder, model_folder):
         'r2': r2
     }
 
-    with open(f"{model_folder}/scores.json", 'w') as f:
+    with open(f"{metrics_folder}/scores.json", 'w') as f:
         json.dump(scores, f)
 
     predictions_df = pd.DataFrame(predictions, columns=['silica_concentrate'])

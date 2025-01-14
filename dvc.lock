@@ -1,12 +1,97 @@
 schema: '2.0'
 stages:
   split_data:
-    cmd: make split-data
+    cmd: python src/data/split_data.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: 83524b9ab09f4ac15af2c899d45e60eb.dir
+      size: 333773
+      nfiles: 2
+    - path: src/data/split_data.py
+      hash: md5
+      md5: c1b4fd31f10b9c1fc6df0534f8159f40
+      size: 1484
+    outs:
+    - path: data/split
+      hash: md5
+      md5: 67454827489cf3c87a0665cbba0b97da.dir
+      size: 295687
+      nfiles: 4
   normalize_data:
-    cmd: make normalize-data
+    cmd: python src/data/normalize_data.py
+    deps:
+    - path: data/split
+      hash: md5
+      md5: 67454827489cf3c87a0665cbba0b97da.dir
+      size: 295687
+      nfiles: 4
+    - path: src/data/normalize_data.py
+      hash: md5
+      md5: 84f2c0bb5a2363ba5529812f0115f084
+      size: 1382
+    outs:
+    - path: data/processed
+      hash: md5
+      md5: 5b46e6949e71b2b18e3d9a3e57c1dc80.dir
+      size: 284288
+      nfiles: 2
   grid_search:
-    cmd: make grid-search
+    cmd: python src/models/grid_search.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 5b46e6949e71b2b18e3d9a3e57c1dc80.dir
+      size: 284288
+      nfiles: 2
+    - path: src/models/grid_search.py
+      hash: md5
+      md5: 7539b1ca8a6ea15b8bad715b6be29c04
+      size: 1410
+    outs:
+    - path: models/best_params.pkl
+      hash: md5
+      md5: 3576587870dff9f6c9aa6c79e52078bf
+      size: 90
   train_model:
-    cmd: make train-model
+    cmd: python src/models/train_model.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: 5b46e6949e71b2b18e3d9a3e57c1dc80.dir
+      size: 284288
+      nfiles: 2
+    - path: models/best_params.pkl
+      hash: md5
+      md5: 3576587870dff9f6c9aa6c79e52078bf
+      size: 90
+    - path: src/models/train_model.py
+      hash: md5
+      md5: 093092d3f5927d0a7c69abd8d6c268cb
+      size: 1070
+    outs:
+    - path: models/trained_model.pkl
+      hash: md5
+      md5: 663aa4d5678f2f07e78c7f5cc8075cf4
+      size: 9439345
   evaluate_model:
-    cmd: make evaluate-model
+    cmd: python src/models/evaluate_model.py
+    deps:
+    - path: data/processed
+      hash: md5
+      md5: a0b884787de21eff655f0dd57be0caeb.dir
+      size: 291092
+      nfiles: 3
+    - path: models/trained_model.pkl
+      hash: md5
+      md5: 663aa4d5678f2f07e78c7f5cc8075cf4
+      size: 9439345
+    - path: src/models/evaluate_model.py
+      hash: md5
+      md5: f7d8f1163f8c4fe3a2550bb9e79b27ca
+      size: 1736
+    outs:
+    - path: metrics/scores.json
+      hash: md5
+      md5: 576678cd8cccbd65af335d0885ec54ec
+      size: 54

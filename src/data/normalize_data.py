@@ -13,13 +13,18 @@ def main():
     As output, this script will create two new datasets (X_train_scaled, X_test_scaled) which you will also save in data/processed.
     """
 
-    processed_data_folder = os.path.join(os.getcwd(), 'data/processed_data')
-    normalize_data(processed_data_folder)
+    split_data_folder = (os.path.join(os.getcwd(), 'data/split'))
+    processed_data_folder = (os.path.join(os.getcwd(), 'data/processed'))
+
+    if not os.path.exists(processed_data_folder):
+        os.makedirs(processed_data_folder)
+
+    normalize_data(split_data_folder, processed_data_folder)
 
 
-def normalize_data(processed_data_folder):
-    X_train = pd.read_csv(f"{processed_data_folder}/X_train.csv")
-    X_test = pd.read_csv(f"{processed_data_folder}/X_test.csv")
+def normalize_data(split_data_folder, processed_data_folder):
+    X_train = pd.read_csv(f"{split_data_folder}/X_train.csv")
+    X_test = pd.read_csv(f"{split_data_folder}/X_test.csv")
 
     # Normalize the data
     scaler = StandardScaler()

@@ -12,14 +12,15 @@ def main():
     # Model Training: Using the parameters found through GridSearch, we will train the model and save the trained model in the models directory.
     """
 
-    processed_data_folder = os.path.join(os.getcwd(), 'data/processed_data')
+    split_data_folder = os.path.join(os.getcwd(), 'data/split')
+    processed_data_folder = os.path.join(os.getcwd(), 'data/processed')
     model_folder = os.path.join(os.getcwd(), 'models')
-    train(processed_data_folder, model_folder)
+    train(split_data_folder, processed_data_folder, model_folder)
 
 
-def train(processed_data_folder, model_folder):
+def train(split_data_folder, processed_data_folder, model_folder):
     X_train = pd.read_csv(f"{processed_data_folder}/X_train_scaled.csv")
-    y_train = pd.read_csv(f"{processed_data_folder}/y_train.csv").values.ravel()
+    y_train = pd.read_csv(f"{split_data_folder}/y_train.csv").values.ravel()
 
     best_params = joblib.load(f"{model_folder}/best_params.pkl")
     rf = RandomForestRegressor(**best_params)

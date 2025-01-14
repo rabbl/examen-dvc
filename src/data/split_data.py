@@ -15,10 +15,12 @@ def main():
     The output preprocessed data file will be saved in the output folder.
     """
 
-    input_filepath = os.path.join(os.getcwd(), 'data/raw_data')
-    output_filepath = os.path.join(os.getcwd(), 'data/processed_data')
+    raw_data_file = os.path.join(os.getcwd(), 'data/raw/raw.csv')
+    output_filepath = os.path.join(os.getcwd(), 'data/split')
 
-    raw_data_file = f"{input_filepath}/raw.csv"
+    if not os.path.exists(output_filepath):
+        os.makedirs(output_filepath)
+
     split_data(raw_data_file, output_filepath)
 
 
